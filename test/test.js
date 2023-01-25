@@ -124,6 +124,7 @@ describe('todos', () => {
         todos.create(todo2text, (err, todo) => {
           todos.readAll((err, todoList) => {
             expect(todoList).to.have.lengthOf(2);
+            expect(todoList[0].text).to.equal(expectedTodoList[0].text);
             expect(todoList).to.deep.include.members(expectedTodoList, 'NOTE: Text field should use the Id initially');
             done();
           });
@@ -136,6 +137,7 @@ describe('todos', () => {
   describe('readOne', () => {
     it('should return an error for non-existant todo', (done) => {
       todos.readOne('notAnId', (err, todo) => {
+        //console.log('test err', err);
         expect(err).to.exist;
         done();
       });
@@ -144,6 +146,8 @@ describe('todos', () => {
     it('should find a todo by id', (done) => {
       const todoText = 'buy chocolate';
       todos.create(todoText, (err, createdTodo) => {
+        // console.log(' test err', err);
+        // console.log('createdTodo', createdTodo);
         const id = createdTodo.id;
         todos.readOne(id, (err, readTodo) => {
           expect(readTodo).to.deep.equal({ id, text: todoText });
